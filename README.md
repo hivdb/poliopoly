@@ -13,8 +13,8 @@ Linux on Windows with WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 for using this script.
 
 ```bash
-sudo curl -sSL -o /usr/local/bin/poliopoly https://raw.githubusercontent.com/hivdb/poliopoly/main/bin/poliopoly
-sudo chmod +x /usr/local/bin/poliopoly
+sudo curl -sSL -o /usr/bin/poliopoly https://raw.githubusercontent.com/hivdb/poliopoly/main/bin/poliopoly
+sudo chmod +x /usr/bin/poliopoly
 ```
 
 ## Usage
