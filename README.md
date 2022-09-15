@@ -57,7 +57,7 @@ Troubleshooting
 
 ### Memory requirement
 
-The script requires at least **6GB** minimum of free memory that dedicated for
+The script requires at least **8GB** minimum of free memory that dedicated for
 Docker.
 
 For Linux users, since the Docker runs as a native program, the limit is the
