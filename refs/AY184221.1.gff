@@ -1,0 +1,23 @@
+##sequence-region AY184221.1 1 7432
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12086
+AY184221.1	Genbank	region	1	7432	.	+	.	ID=AY184221.1:1..7432;Dbxref=taxon:12086;gbkey=Src;mol_type=mRNA;note=strain of live vaccine;old-name=Poliovirus type 3;strain=Sabin 3
+AY184221.1	Genbank	sequence_alteration	472	472	.	+	.	ID=id-AY184221.1:472..472;Note=in revertants%3B mixture in most stocks of the vaccine;gbkey=variation;replace=c
+AY184221.1	Genbank	CDS	743	7363	.	+	0	ID=cds-AAN85444.1;Dbxref=NCBI_GP:AAN85444.1;Name=AAN85444.1;gbkey=CDS;product=polyprotein;protein_id=AAN85444.1
+AY184221.1	Genbank	mature_protein_region_of_CDS	743	949	.	+	.	ID=id-AAN85444.1:1..69;Parent=cds-AAN85444.1;gbkey=Prot;product=protein VP4
+AY184221.1	Genbank	mature_protein_region_of_CDS	950	1762	.	+	.	ID=id-AAN85444.1:70..340;Parent=cds-AAN85444.1;gbkey=Prot;product=protein VP2
+AY184221.1	Genbank	mature_protein_region_of_CDS	1763	2476	.	+	.	ID=id-AAN85444.1:341..578;Parent=cds-AAN85444.1;gbkey=Prot;product=protein VP3
+AY184221.1	Genbank	mature_protein_region_of_CDS	2477	3376	.	+	.	ID=id-AAN85444.1:579..878;Parent=cds-AAN85444.1;gbkey=Prot;product=protein VP1
+AY184221.1	Genbank	mature_protein_region_of_CDS	3377	3823	.	+	.	ID=id-AAN85444.1:879..1027;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 2A
+AY184221.1	Genbank	mature_protein_region_of_CDS	3824	4114	.	+	.	ID=id-AAN85444.1:1028..1124;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 2B
+AY184221.1	Genbank	mature_protein_region_of_CDS	4115	5101	.	+	.	ID=id-AAN85444.1:1125..1453;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 2C
+AY184221.1	Genbank	mature_protein_region_of_CDS	5102	5362	.	+	.	ID=id-AAN85444.1:1454..1540;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 3A
+AY184221.1	Genbank	mature_protein_region_of_CDS	5363	5428	.	+	.	ID=id-AAN85444.1:1541..1562;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 3B
+AY184221.1	Genbank	mature_protein_region_of_CDS	5429	5977	.	+	.	ID=id-AAN85444.1:1563..1745;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 3C
+AY184221.1	Genbank	mature_protein_region_of_CDS	5978	7360	.	+	.	ID=id-AAN85444.1:1746..2206;Parent=cds-AAN85444.1;gbkey=Prot;product=protein 3D
+AY184221.1	Genbank	sequence_feature	743	3376	.	+	.	ID=id-AY184221.1:743..3376;Note=P1%3B capsid protein precursor;gbkey=misc_feature
+AY184221.1	Genbank	sequence_alteration	2493	2493	.	+	.	ID=id-AY184221.1:2493..2493;Note=in revertants and some cloned vaccine strains%3B mixture in Sabin Original (SO) strain;gbkey=variation;replace=t
+AY184221.1	Genbank	sequence_feature	3377	5101	.	+	.	ID=id-AY184221.1:3377..5101;Note=P2;gbkey=misc_feature
+AY184221.1	Genbank	region	4449	4476	.	+	.	ID=id-AY184221.1:4449..4476;Note=CRE element%3B conserved region;gbkey=misc_signal
+AY184221.1	Genbank	sequence_feature	5102	7360	.	+	.	ID=id-AY184221.1:5102..7360;Note=P3;gbkey=misc_feature
+AY184221.1	Genbank	polyA_site	7432	7432	.	+	.	ID=id-AY184221.1:7432..7432;gbkey=polyA_site
+

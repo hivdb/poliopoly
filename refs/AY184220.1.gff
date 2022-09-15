@@ -1,0 +1,20 @@
+##sequence-region AY184220.1 1 7439
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12083
+AY184220.1	Genbank	region	1	7439	.	+	.	ID=AY184220.1:1..7439;Dbxref=taxon:12083;gbkey=Src;mol_type=mRNA;old-name=Poliovirus type 2;strain=Sabin 2
+AY184220.1	Genbank	CDS	748	7371	.	+	0	ID=cds-AAN85443.1;Dbxref=NCBI_GP:AAN85443.1;Name=AAN85443.1;gbkey=CDS;product=polyprotein;protein_id=AAN85443.1
+AY184220.1	Genbank	mature_protein_region_of_CDS	748	954	.	+	.	ID=id-AAN85443.1:1..69;Parent=cds-AAN85443.1;gbkey=Prot;product=protein VP4
+AY184220.1	Genbank	mature_protein_region_of_CDS	955	1767	.	+	.	ID=id-AAN85443.1:70..340;Parent=cds-AAN85443.1;gbkey=Prot;product=protein VP2
+AY184220.1	Genbank	mature_protein_region_of_CDS	1768	2481	.	+	.	ID=id-AAN85443.1:341..578;Parent=cds-AAN85443.1;gbkey=Prot;product=protein VP3
+AY184220.1	Genbank	mature_protein_region_of_CDS	2482	3384	.	+	.	ID=id-AAN85443.1:579..879;Parent=cds-AAN85443.1;gbkey=Prot;product=protein VP1
+AY184220.1	Genbank	mature_protein_region_of_CDS	3385	3831	.	+	.	ID=id-AAN85443.1:880..1028;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 2A
+AY184220.1	Genbank	mature_protein_region_of_CDS	3832	4122	.	+	.	ID=id-AAN85443.1:1029..1125;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 2B
+AY184220.1	Genbank	mature_protein_region_of_CDS	4123	5109	.	+	.	ID=id-AAN85443.1:1126..1454;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 2C
+AY184220.1	Genbank	mature_protein_region_of_CDS	5110	5370	.	+	.	ID=id-AAN85443.1:1455..1541;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 3A
+AY184220.1	Genbank	mature_protein_region_of_CDS	5371	5436	.	+	.	ID=id-AAN85443.1:1542..1563;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 3B
+AY184220.1	Genbank	mature_protein_region_of_CDS	5437	5985	.	+	.	ID=id-AAN85443.1:1564..1746;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 3C
+AY184220.1	Genbank	mature_protein_region_of_CDS	5986	7368	.	+	.	ID=id-AAN85443.1:1747..2207;Parent=cds-AAN85443.1;gbkey=Prot;product=protein 3D
+AY184220.1	Genbank	sequence_feature	748	3384	.	+	.	ID=id-AY184220.1:748..3384;Note=P1%3B capsid protein precursor;gbkey=misc_feature
+AY184220.1	Genbank	sequence_feature	3385	5109	.	+	.	ID=id-AY184220.1:3385..5109;Note=P2;gbkey=misc_feature
+AY184220.1	Genbank	region	4457	4484	.	+	.	ID=id-AY184220.1:4457..4484;Note=CRE element%3B conserved region;gbkey=misc_signal
+AY184220.1	Genbank	sequence_feature	5110	7368	.	+	.	ID=id-AY184220.1:5110..7368;Note=P3;gbkey=misc_feature
+

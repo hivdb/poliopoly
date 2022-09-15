@@ -1,0 +1,84 @@
+#! /bin/bash
+
+set -e
+
+USAGE="
+Usage:
+ poliopoly -i <input_dir> -o <output_dir> -t <S1|S2|S3> -p <primer_fasta> -n <resume_name>
+
+Options:
+ -i <input_dir>     input directory which includes paired FASTQ files
+ -o <output_dir>    output directory
+ -t <S1|S2|S3>      reference polio serotype
+ -p <primer_fasta>  location of FASTA file of primers
+ -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
+"
+
+SKIP_REMOTE_DOCKER=0
+
+while getopts ':i:o:t:p:n:s' OPT; do
+  case "$OPT" in
+    i) INPUT_DIR="$OPTARG" ;;
+    o) OUTPUT_DIR="$OPTARG" ;;
+    t) SEROTYPE="$OPTARG";;
+    p) PRIMER_FASTA="$OPTARG" ;;
+    n) RESUME_NAME="$OPTARG" ;;
+    s) SKIP_REMOTE_DOCKER=1 ;;
+    \?)
+      echo $USAGE >&2
+      exit 0
+      ;;
+    :) echo "missing option argument for -$OPTARG\n$USAGE" >&2; exit 1;;
+    *) echo "unrecongnized option: -$OPTARG\n$USAGE" >&2; exit 1;;
+  esac
+done
+
+if [ -z "$INPUT_DIR" ]; then
+  echo "missing required option -i <input_dir>" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+if [ ! -d "$INPUT_DIR" ]; then
+  echo "-i $INPUT_DIR is not a directory or does not exist" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+if [ -z "$OUTPUT_DIR" ]; then
+  echo "missing required option -o <output_dir>" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+mkdir -p $OUTPUT_DIR
+
+if [ -z "$SEROTYPE" ]; then
+  echo "missing required option -t <serotype>" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+if [ -z "$PRIMER_FASTA" ]; then
+  echo "missing required option -p <primer_fasta>" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+if [ -z "$RESUME_NAME" ]; then
+  echo "missing required option -n <resume_name>" >&2
+  echo "$USAGE" >&2
+  exit 1
+fi
+
+case "$SEROTYPE" in
+  1 | S1 )
+    ;;
+  2 | S2 )
+    ;;
+  3 | S3 )
+    ;;
+  * )
+    echo "unrecongnized -t ${SEROTYPE}" >&2
+    exit 1
+    ;;
+esac

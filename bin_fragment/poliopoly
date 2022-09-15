@@ -1,0 +1,39 @@
+SYSTEM=$(uname -s)
+DOCKER_CMD=$(which docker)
+
+BOLD="\x1b[1m"
+NORM="\x1b[0m"
+
+realpath() {
+  echo $(pushd $(dirname "$1") | cut -d' ' -f1)/$(basename "$1")
+}
+
+if [ ! -f "$DOCKER_CMD" ]; then
+  echo "Command dependency 'docker' is not found/installed." >&2
+  echo -e "Visit ${BOLD}https://docs.docker.com/get-docker/${NORM} for installation." >&2
+  exit 4
+fi
+
+set -e
+
+INPUT_DIR=$(realpath $INPUT_DIR)
+OUTPUT_DIR=$(realpath $OUTPUT_DIR)
+PRIMER_FASTA=$(realpath $PRIMER_FASTA)
+
+docker volume create poliopoly-work >/dev/null 2>/dev/null || true
+
+if [ "$SKIP_REMOTE_DOCKER" -eq "0" ]; then
+  docker pull hivdb/poliopoly:latest
+fi
+docker run --rm -it \
+  --privileged \
+  --mount source=poliopoly-work,target=/work \
+  --mount type=bind,source="$INPUT_DIR",target=/_input \
+  --mount type=bind,source="$OUTPUT_DIR",target=/_output \
+  --mount type=bind,source="$PRIMER_FASTA",target=/_primer.fasta \
+  hivdb/poliopoly:latest \
+  -i /_input \
+  -o /_output \
+  -t $SEROTYPE \
+  -p /_primer.fasta \
+  -n $RESUME_NAME

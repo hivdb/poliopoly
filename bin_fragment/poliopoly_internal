@@ -1,0 +1,95 @@
+set -e
+
+REF_DIR=/refs/
+
+# Define reference and GFF.
+case "$SEROTYPE" in
+  1 | S1 )
+    FASTA=${REF_DIR}AY184219.1.fasta
+    GFF=${REF_DIR}AY184219.1.gff
+    PRIMER_BED=${REF_DIR}AY184219.1_primers.bed
+    INTERVAL_LIST=${REF_DIR}AY184219.interval_list
+    ;;
+  2 | S2 )
+    FASTA=${REF_DIR}AY184220.1.fasta
+    GFF=${REF_DIR}AY184220.1.gff
+    PRIMER_BED=${REF_DIR}AY184220.1_primers.bed
+    INTERVAL_LIST=${REF_DIR}AY184220.interval_list
+    ;;
+  3 | S3 )
+    FASTA=${REF_DIR}AY184221.1.fasta
+    GFF=${REF_DIR}AY184221.1.gff
+    PRIMER_BED=${REF_DIR}AY184221.1_primers.bed
+    INTERVAL_LIST=${REF_DIR}AY184221.interval_list
+    ;;
+esac
+
+build_sample_list() {
+  local input_dir="$1"
+  echo "sample,fastq_1,fastq_2"
+  find $input_dir -name "*_R1_001.fastq.gz" | while read fastq1; do
+    local fastq2="${fastq1%_R1_001.fastq.gz}_R2_001.fastq.gz"
+    if [ ! -f "$fastq2" ]; then
+      echo "Warning: skipped unpaired FASTQ file $(basename $fastq1): $(basename $fastq2) not found" >&2
+    else
+      local sample_name=$(basename $fastq1)
+      echo "${sample_name%_R1_001.fastq.gz},$(readlink -f $fastq1),$(readlink -f $fastq2)"
+    fi
+  done
+}
+
+SAMPLE_LIST=${OUTPUT_DIR}/sample_list.csv
+build_sample_list "$INPUT_DIR" > $SAMPLE_LIST
+
+CPU=$(cat /proc/cpuinfo | grep processor | wc -l)
+MEM=$(($(cat /proc/meminfo | grep MemAvailable | awk '{print $2}') / 1024 / 1024))
+
+if [ "$MEM" -lt 6 ]; then
+  echo "insufficient memory: require 6GB minimum free memory, only ${MEM}GB available" >&2
+  exit 2
+fi
+
+
+# Use iVar defaults here (don't output variants < .03 frequency)
+nextflow run nf-core/viralrecon \
+  -r dev \
+  -resume ${RESUME_NAME} \
+  --input ${SAMPLE_LIST} \
+  -profile singularity \
+  --platform illumina \
+  --protocol amplicon \
+  --outdir ${OUTPUT_DIR} \
+  --fasta ${FASTA} \
+  --gff ${GFF} \
+  --primer_fasta ${PRIMER_FASTA} \
+  --primer_bed ${PRIMER_BED} \
+  --save_reference True \
+  --kraken2_variants_host_filter True \
+  --kraken2_assembly_host_filter True \
+  --filter_duplicates False \
+  --skip_markduplicates True \
+  --skip_assembly True \
+  --max_cpus ${CPU} --max_memory ${MEM}.GB --max_time 36.h \
+  --skip_asciigenome \
+  --skip_variants_quast \
+  --skip_pangolin \
+  --skip_nextclade
+
+mkdir -p ${OUTPUT_DIR}/picard
+COVERAGE_TSV=${OUTPUT_DIR}/coverage.txt
+rm -f $COVERAGE_TSV
+
+find $OUTPUT_DIR/variants/bowtie2 -name "*.ivar_trim.sorted.bam" | while read bamfile; do
+  sample=$(basename $bamfile)
+  sample=${sample%.ivar_trim.sorted.bam}
+  covfile=${OUTPUT_DIR}/picard/${sample}_cov.txt
+  
+  picard CollectWgsMetrics -R ${FASTA} -I ${bamfile} -INTERVALS ${INTERVAL_LIST} \
+    -O ${covfile} -Q 20 -MQ 20 -CAP 10000
+  if [ ! -f "${COVERAGE_TSV}" ]; then
+    echo -ne "SAMPLE\tSOURCE\t" > $COVERAGE_TSV
+    sed -n "7p" $covfile >> $COVERAGE_TSV
+  fi
+  echo -ne "${sample}\t$(basename $covfile)\t" >> $COVERAGE_TSV
+  sed -n "8p" $covfile >> $COVERAGE_TSV
+done
