@@ -87,9 +87,9 @@ find $OUTPUT_DIR/variants/bowtie2 -name "*.ivar_trim.sorted.bam" | while read ba
   picard CollectWgsMetrics -R ${FASTA} -I ${bamfile} -INTERVALS ${INTERVAL_LIST} \
     -O ${covfile} -Q 20 -MQ 20 -CAP 10000
   if [ ! -f "${COVERAGE_TSV}" ]; then
-    echo -ne "SAMPLE\tSOURCE\t" > $COVERAGE_TSV
+    echo -ne "SAMPLE\tSOURCE\tSEROTYPE\t" > $COVERAGE_TSV
     sed -n "7p" $covfile >> $COVERAGE_TSV
   fi
-  echo -ne "${sample}\t$(basename $covfile)\t" >> $COVERAGE_TSV
+  echo -ne "${sample}\t$(basename $covfile)\t${SEROTYPE}\t" >> $COVERAGE_TSV
   sed -n "8p" $covfile >> $COVERAGE_TSV
 done

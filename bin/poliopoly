@@ -83,21 +83,14 @@ case "$SEROTYPE" in
     ;;
 esac
 SYSTEM=$(uname -s)
-REALPATH_CMD=$(which realpath)
 DOCKER_CMD=$(which docker)
 
 BOLD="\x1b[1m"
 NORM="\x1b[0m"
 
-if [ ! -f "$REALPATH_CMD" ]; then
-  echo "Command dependency 'realpath' is not found/installed." >&2
-  case "${SYSTEM}" in
-    Darwin*)
-      echo -e "To install using Homebrew (https://brew.sh/): ${BOLD}brew install coreutils${NORM}" >&2
-      ;;
-  esac
-  exit 5
-fi
+realpath() {
+  eval echo $(pushd $(dirname "$1") | cut -d' ' -f1)/$(basename "$1")
+}
 
 if [ ! -f "$DOCKER_CMD" ]; then
   echo "Command dependency 'docker' is not found/installed." >&2

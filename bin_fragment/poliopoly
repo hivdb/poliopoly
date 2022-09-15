@@ -5,7 +5,7 @@ BOLD="\x1b[1m"
 NORM="\x1b[0m"
 
 realpath() {
-  echo $(pushd $(dirname "$1") | cut -d' ' -f1)/$(basename "$1")
+  eval echo $(pushd $(dirname "$1") | cut -d' ' -f1)/$(basename "$1")
 }
 
 if [ ! -f "$DOCKER_CMD" ]; then
