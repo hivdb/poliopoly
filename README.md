@@ -1,7 +1,6 @@
-PolioPoly
+# PolioPoly
 
-Installation
-============
+## Installation
 
 PolioPoly is simple to use. All of its dependencies and runtime environment has
 been packed into one Docker image. To run PolioPoly, you just need to install
@@ -18,8 +17,7 @@ sudo curl -sSL -o /usr/local/bin/poliopoly https://raw.githubusercontent.com/hiv
 sudo chmod +x /usr/local/bin/poliopoly
 ```
 
-Usage
-=====
+## Usage
 
 A directory of Illumina paired Polio FASTQ files and a primer FASTA file are
 required for running the command `poliopoly`. Replace the following options:
@@ -57,8 +55,7 @@ command. The user need to logout and login again for activating the new group.
 Troubleshooting
 ===============
 
-Memory requirement
-------------------
+### Memory requirement
 
 The script requires at least **6GB** minimum of free memory that dedicated for
 Docker.
@@ -77,8 +74,7 @@ Follow the corresponding instruction for increasing the RAM/Memory:
 - [MacOS](https://docs.docker.com/desktop/settings/mac/#advanced)
 - [Windows](https://docs.docker.com/desktop/settings/windows/#advanced)
 
-Disk space requirement
-----------------------
+### Disk space requirement
 
 At least **30GB** free disk space is required for running `poliopoly`. For Linux
 user this is the free space of where `/var/lib/docker` located:
@@ -87,11 +83,10 @@ user this is the free space of where `/var/lib/docker` located:
 df -h
 ```
 
-For MacOS/Windows users, please follow the same instruction for
-[memory](#Memory requirement) to increase the "disk image size".
+For MacOS/Windows users, please follow the same [instruction for
+memory](#memory-requirement) to increase the "disk image size".
 
-Clean up cache
---------------
+### Clean up cache
 
 You may want to clean up the cache files if you found `poliopoly` takes too much
 disk space or not functional properly. To do so, just run a single command:
