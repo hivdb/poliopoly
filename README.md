@@ -53,3 +53,49 @@ sudo usermod -aG docker $USER
 
 Replace "$USER" to other user name if it's not the user who runs the `usermod`
 command. The user need to logout and login again for activating the new group.
+
+Troubleshooting
+===============
+
+Memory requirement
+------------------
+
+The script requires at least **6GB** minimum of free memory that dedicated for
+Docker.
+
+For Linux users, since the Docker runs as a native program, the limit is the
+total free memory of the system:
+
+```bash
+free -h
+```
+
+For MacOS/Windows users, Docker runs in a virtual machine with allocated amount
+of memory. For both systems the default memory is 2GB which is insufficient.
+Follow the corresponding instruction for increasing the RAM/Memory:
+
+- [MacOS](https://docs.docker.com/desktop/settings/mac/#advanced)
+- [Windows](https://docs.docker.com/desktop/settings/windows/#advanced)
+
+Disk space requirement
+----------------------
+
+At least **30GB** free disk space is required for running `poliopoly`. For Linux
+user this is the free space of where `/var/lib/docker` located:
+
+```bash
+df -h
+```
+
+For MacOS/Windows users, please follow the same instruction for
+[memory](#Memory requirement) to increase the "disk image size".
+
+Clean up cache
+--------------
+
+You may want to clean up the cache files if you found `poliopoly` takes too much
+disk space or not functional properly. To do so, just run a single command:
+
+```bash
+docker volume rm poliopoly-work
+```
