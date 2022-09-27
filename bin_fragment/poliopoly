@@ -18,7 +18,7 @@ set -e
 
 INPUT_DIR=$(realpath $INPUT_DIR)
 OUTPUT_DIR=$(realpath $OUTPUT_DIR)
-PRIMER_FASTA=$(realpath $PRIMER_FASTA)
+PRIMER_BED=$(realpath $PRIMER_BED)
 
 docker volume create poliopoly-work >/dev/null 2>/dev/null || true
 
@@ -30,10 +30,10 @@ docker run --rm -it \
   --mount source=poliopoly-work,target=/work \
   --mount type=bind,source="$INPUT_DIR",target=/_input \
   --mount type=bind,source="$OUTPUT_DIR",target=/_output \
-  --mount type=bind,source="$PRIMER_FASTA",target=/_primer.fasta \
+  --mount type=bind,source="$PRIMER_BED",target=/_primer.bed \
   hivdb/poliopoly:latest \
   -i /_input \
   -o /_output \
   -t $SEROTYPE \
-  -p /_primer.fasta \
+  -b /_primer.bed \
   -n $RESUME_NAME

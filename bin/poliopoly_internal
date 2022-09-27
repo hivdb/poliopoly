@@ -4,24 +4,24 @@ set -e
 
 USAGE="
 Usage:
- poliopoly -i <input_dir> -o <output_dir> -t <S1|S2|S3> -p <primer_fasta> -n <resume_name>
+ poliopoly -i <input_dir> -o <output_dir> -t <S1|S2|S3> -b <primer_bed> -n <resume_name>
 
 Options:
  -i <input_dir>     input directory which includes paired FASTQ files
  -o <output_dir>    output directory
  -t <S1|S2|S3>      reference polio serotype
- -p <primer_fasta>  location of FASTA file of primers
+ -b <primer_bed>    location of BED file of primers
  -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
 "
 
 SKIP_REMOTE_DOCKER=0
 
-while getopts ':i:o:t:p:n:s' OPT; do
+while getopts ':i:o:t:b:n:s' OPT; do
   case "$OPT" in
     i) INPUT_DIR="$OPTARG" ;;
     o) OUTPUT_DIR="$OPTARG" ;;
     t) SEROTYPE="$OPTARG";;
-    p) PRIMER_FASTA="$OPTARG" ;;
+    b) PRIMER_BED="$OPTARG" ;;
     n) RESUME_NAME="$OPTARG" ;;
     s) SKIP_REMOTE_DOCKER=1 ;;
     \?)
@@ -58,8 +58,8 @@ if [ -z "$SEROTYPE" ]; then
   exit 1
 fi
 
-if [ -z "$PRIMER_FASTA" ]; then
-  echo "missing required option -p <primer_fasta>" >&2
+if [ -z "$PRIMER_BED" ]; then
+  echo "missing required option -b <primer_bed>" >&2
   echo "$USAGE" >&2
   exit 1
 fi
@@ -91,19 +91,16 @@ case "$SEROTYPE" in
   1 | S1 )
     FASTA=${REF_DIR}AY184219.1.fasta
     GFF=${REF_DIR}AY184219.1.gff
-    PRIMER_BED=${REF_DIR}AY184219.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184219.interval_list
     ;;
   2 | S2 )
     FASTA=${REF_DIR}AY184220.1.fasta
     GFF=${REF_DIR}AY184220.1.gff
-    PRIMER_BED=${REF_DIR}AY184220.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184220.interval_list
     ;;
   3 | S3 )
     FASTA=${REF_DIR}AY184221.1.fasta
     GFF=${REF_DIR}AY184221.1.gff
-    PRIMER_BED=${REF_DIR}AY184221.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184221.interval_list
     ;;
 esac
@@ -133,6 +130,7 @@ if [ "$MEM" -lt 6 ]; then
   exit 2
 fi
 
+cp $PRIMER_BED /tmp/primer.bed
 
 # Use iVar defaults here (don't output variants < .03 frequency)
 nextflow run nf-core/viralrecon \
@@ -145,8 +143,7 @@ nextflow run nf-core/viralrecon \
   --outdir ${OUTPUT_DIR} \
   --fasta ${FASTA} \
   --gff ${GFF} \
-  --primer_fasta ${PRIMER_FASTA} \
-  --primer_bed ${PRIMER_BED} \
+  --primer_bed /tmp/primer.bed \
   --save_reference True \
   --kraken2_variants_host_filter True \
   --kraken2_assembly_host_filter True \

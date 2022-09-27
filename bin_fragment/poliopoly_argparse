@@ -4,24 +4,24 @@ set -e
 
 USAGE="
 Usage:
- poliopoly -i <input_dir> -o <output_dir> -t <S1|S2|S3> -p <primer_fasta> -n <resume_name>
+ poliopoly -i <input_dir> -o <output_dir> -t <S1|S2|S3> -b <primer_bed> -n <resume_name>
 
 Options:
  -i <input_dir>     input directory which includes paired FASTQ files
  -o <output_dir>    output directory
  -t <S1|S2|S3>      reference polio serotype
- -p <primer_fasta>  location of FASTA file of primers
+ -b <primer_bed>    location of BED file of primers
  -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
 "
 
 SKIP_REMOTE_DOCKER=0
 
-while getopts ':i:o:t:p:n:s' OPT; do
+while getopts ':i:o:t:b:n:s' OPT; do
   case "$OPT" in
     i) INPUT_DIR="$OPTARG" ;;
     o) OUTPUT_DIR="$OPTARG" ;;
     t) SEROTYPE="$OPTARG";;
-    p) PRIMER_FASTA="$OPTARG" ;;
+    b) PRIMER_BED="$OPTARG" ;;
     n) RESUME_NAME="$OPTARG" ;;
     s) SKIP_REMOTE_DOCKER=1 ;;
     \?)
@@ -58,8 +58,8 @@ if [ -z "$SEROTYPE" ]; then
   exit 1
 fi
 
-if [ -z "$PRIMER_FASTA" ]; then
-  echo "missing required option -p <primer_fasta>" >&2
+if [ -z "$PRIMER_BED" ]; then
+  echo "missing required option -b <primer_bed>" >&2
   echo "$USAGE" >&2
   exit 1
 fi

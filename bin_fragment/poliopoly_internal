@@ -7,19 +7,16 @@ case "$SEROTYPE" in
   1 | S1 )
     FASTA=${REF_DIR}AY184219.1.fasta
     GFF=${REF_DIR}AY184219.1.gff
-    PRIMER_BED=${REF_DIR}AY184219.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184219.interval_list
     ;;
   2 | S2 )
     FASTA=${REF_DIR}AY184220.1.fasta
     GFF=${REF_DIR}AY184220.1.gff
-    PRIMER_BED=${REF_DIR}AY184220.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184220.interval_list
     ;;
   3 | S3 )
     FASTA=${REF_DIR}AY184221.1.fasta
     GFF=${REF_DIR}AY184221.1.gff
-    PRIMER_BED=${REF_DIR}AY184221.1_primers.bed
     INTERVAL_LIST=${REF_DIR}AY184221.interval_list
     ;;
 esac
@@ -49,6 +46,7 @@ if [ "$MEM" -lt 6 ]; then
   exit 2
 fi
 
+cp $PRIMER_BED /tmp/primer.bed
 
 # Use iVar defaults here (don't output variants < .03 frequency)
 nextflow run nf-core/viralrecon \
@@ -61,8 +59,7 @@ nextflow run nf-core/viralrecon \
   --outdir ${OUTPUT_DIR} \
   --fasta ${FASTA} \
   --gff ${GFF} \
-  --primer_fasta ${PRIMER_FASTA} \
-  --primer_bed ${PRIMER_BED} \
+  --primer_bed /tmp/primer.bed \
   --save_reference True \
   --kraken2_variants_host_filter True \
   --kraken2_assembly_host_filter True \

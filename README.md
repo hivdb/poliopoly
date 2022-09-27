@@ -19,15 +19,15 @@ sudo chmod +x /usr/bin/poliopoly
 
 ## Usage
 
-A directory of Illumina paired Polio FASTQ files and a primer FASTA file are
+A directory of Illumina paired Polio FASTQ files and a primer BED file are
 required for running the command `poliopoly`. Replace the following options:
 
 ```bash
 poliopoly \
-  -i path/to/fastq/files \
+  -i path/to/fastq/directory \
   -o path/to/output/directory \
   -t S3 \
-  -p path/to/primers.fa \
+  -p path/to/primers.bed \
   -n run_name
 ```
 
@@ -36,7 +36,7 @@ The options:
 -i <input_dir>     input directory which includes paired FASTQ files
 -o <output_dir>    output directory
 -t <S1|S2|S3>      reference polio serotype, can be S1, S2, or S3
--p <primer_fasta>  location of FASTA file of primers
+-b <primer_bed>    location of BED file of primers
 -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
 ```
 
