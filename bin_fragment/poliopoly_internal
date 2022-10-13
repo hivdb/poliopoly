@@ -48,6 +48,28 @@ fi
 
 cp $PRIMER_BED /tmp/primer.bed
 
+cat > /tmp/nf_custom.nf <<EOF
+process {
+    withName: 'IVAR_VARIANTS' {
+        ext.args = '-t 0.002 -q 20 -m 10'
+    }
+}
+process {
+    withName: FASTQC_TRIM {
+        memory = ${MEM}.GB
+        cpus = ${CPU}
+    }
+    withName: SNPEFF_ANN {
+        memory = ${MEM}.GB
+        args = '-no-downstream -no-upstream -canon'
+    }
+        withName: BOWTIE2_BUILD {
+        cpus = ${CPU}
+        args = '-no-downstream -no-upstream -canon'
+    }
+}
+EOF
+
 # Use iVar defaults here (don't output variants < .03 frequency)
 nextflow run nf-core/viralrecon \
   -r dev \
@@ -70,7 +92,8 @@ nextflow run nf-core/viralrecon \
   --skip_asciigenome \
   --skip_variants_quast \
   --skip_pangolin \
-  --skip_nextclade
+  --skip_nextclade \
+  -c /tmp/nf_custom.nf
 
 mkdir -p ${OUTPUT_DIR}/picard
 COVERAGE_TSV=${OUTPUT_DIR}/coverage.txt
