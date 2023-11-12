@@ -35,9 +35,19 @@ The options:
 ```
 -i <input_dir>     input directory which includes paired FASTQ files
 -o <output_dir>    output directory
--t <S1|S2|S3>      reference polio serotype, can be S1, S2, or S3
+-t <S1|S2|S3>      reference polio serotype
 -b <primer_bed>    location of BED file of primers
 -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
+```
+
+Optional environment variables:
+```
+IVAR_VARIANTS_MIN_FREQ    minimum frequency of `ivar variants` (default: 0.75)
+IVAR_VARIANTS_MIN_QUAL    minimum quality of `ivar variants` (default: 20)
+IVAR_VARIANTS_MIN_COV     minimum coverage of `ivar variants` (default: 10)
+IVAR_CONSENSUS_MIN_FREQ   minimum frequency of `ivar consensus` (default: 0.5)
+IVAR_CONSENSUS_MIN_QUAL   minimum quality of `ivar consensus` (default: 20)
+IVAR_CONSENSUS_MIN_COV    minimum coverage of `ivar consensus` (default: 50)
 ```
 
 **For Linux users only:** you may need to add `sudo` in front of the `poliopoly`

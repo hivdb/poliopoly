@@ -1,7 +1,8 @@
 FROM openjdk:18
 ADD https://get.nextflow.io /usr/bin/nextflow
 RUN chmod +x /usr/bin/nextflow && /usr/bin/nextflow
-RUN nextflow pull nf-core/viralrecon
+ENV VIRALRECON_VERSION=2.6.0
+RUN nextflow pull nf-core/viralrecon -r ${VIRALRECON_VERSION}
 RUN microdnf install cryptsetup libseccomp runc squashfs-tools findutils which
 ARG SINGULARITY_VERSION=3.10.2
 RUN curl -sSL -o /tmp/singularity-ce.rpm \

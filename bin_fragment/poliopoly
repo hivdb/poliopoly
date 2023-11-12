@@ -31,6 +31,12 @@ docker run --rm -it \
   --mount type=bind,source="$INPUT_DIR",target=/_input \
   --mount type=bind,source="$OUTPUT_DIR",target=/_output \
   --mount type=bind,source="$PRIMER_BED",target=/_primer.bed \
+  --env IVAR_VARIANTS_MIN_FREQ=${IVAR_VARIANTS_MIN_FREQ} \
+  --env IVAR_VARIANTS_MIN_QUAL=${IVAR_VARIANTS_MIN_QUAL} \
+  --env IVAR_VARIANTS_MIN_COV=${IVAR_VARIANTS_MIN_COV} \
+  --env IVAR_CONSENSUS_MIN_FREQ=${IVAR_CONSENSUS_MIN_FREQ} \
+  --env IVAR_CONSENSUS_MIN_QUAL=${IVAR_CONSENSUS_MIN_QUAL} \
+  --env IVAR_CONSENSUS_MIN_COV=${IVAR_CONSENSUS_MIN_COV} \
   hivdb/poliopoly:latest \
   -i /_input \
   -o /_output \

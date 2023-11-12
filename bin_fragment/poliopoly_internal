@@ -48,10 +48,16 @@ fi
 
 cp $PRIMER_BED /tmp/primer.bed
 
+echo "ivar variants settings: min_freq=${IVAR_VARIANTS_MIN_FREQ}, min_qual=${IVAR_VARIANTS_MIN_QUAL}, min_cov=${IVAR_VARIANTS_MIN_COV}"
+echo "ivar consensus settings: min_freq=${IVAR_CONSENSUS_MIN_FREQ}, min_qual=${IVAR_CONSENSUS_MIN_QUAL}, min_cov=${IVAR_CONSENSUS_MIN_COV}"
+
 cat > /tmp/nf_custom.nf <<EOF
 process {
     withName: 'IVAR_VARIANTS' {
-        ext.args = '-t 0.002 -q 20 -m 10'
+        ext.args = '-t ${IVAR_VARIANTS_MIN_FREQ} -q ${IVAR_VARIANTS_MIN_QUAL} -m ${IVAR_VARIANTS_MIN_COV}'
+    }
+    withName: 'IVAR_CONSENSUS' {
+        ext.args = '-t ${IVAR_CONSENSUS_MIN_FREQ} -q ${IVAR_CONSENSUS_MIN_QUAL} -m ${IVAR_CONSENSUS_MIN_COV}'
     }
 }
 process {
@@ -72,7 +78,7 @@ EOF
 
 # Use iVar defaults here (don't output variants < .03 frequency)
 nextflow run nf-core/viralrecon \
-  -r dev \
+  -r ${VIRALRECON_VERSION} \
   -resume ${RESUME_NAME} \
   --input ${SAMPLE_LIST} \
   -profile singularity \
@@ -89,6 +95,7 @@ nextflow run nf-core/viralrecon \
   --skip_markduplicates True \
   --skip_assembly True \
   --max_cpus ${CPU} --max_memory ${MEM}.GB --max_time 36.h \
+  --consensus_caller ivar \
   --skip_asciigenome \
   --skip_variants_quast \
   --skip_pangolin \

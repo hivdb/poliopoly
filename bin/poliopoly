@@ -12,9 +12,23 @@ Options:
  -t <S1|S2|S3>      reference polio serotype
  -b <primer_bed>    location of BED file of primers
  -n <resume_name>   resume of NextFlow, see https://bit.ly/3xpKmEK
+
+Optional environment variables:
+ IVAR_VARIANTS_MIN_FREQ    minimum frequency of \`ivar variants\` (default: 0.75)
+ IVAR_VARIANTS_MIN_QUAL    minimum quality of \`ivar variants\` (default: 20)
+ IVAR_VARIANTS_MIN_COV     minimum coverage of \`ivar variants\` (default: 10)
+ IVAR_CONSENSUS_MIN_FREQ   minimum frequency of \`ivar consensus\` (default: 0.5)
+ IVAR_CONSENSUS_MIN_QUAL   minimum quality of \`ivar consensus\` (default: 20)
+ IVAR_CONSENSUS_MIN_COV    minimum coverage of \`ivar consensus\` (default: 50)
 "
 
 SKIP_REMOTE_DOCKER=0
+IVAR_VARIANTS_MIN_FREQ=${IVAR_VARIANTS_MIN_FREQ:-0.75}
+IVAR_VARIANTS_MIN_QUAL=${IVAR_VARIANTS_MIN_QUAL:-20}
+IVAR_VARIANTS_MIN_COV=${IVAR_VARIANTS_MIN_COV:-10}
+IVAR_CONSENSUS_MIN_FREQ=${IVAR_CONSENSUS_MIN_FREQ:-0.5}
+IVAR_CONSENSUS_MIN_QUAL=${IVAR_CONSENSUS_MIN_QUAL:-20}
+IVAR_CONSENSUS_MIN_COV=${IVAR_CONSENSUS_MIN_COV:-50}
 
 while getopts ':i:o:t:b:n:s' OPT; do
   case "$OPT" in
@@ -54,19 +68,19 @@ mkdir -p $OUTPUT_DIR
 
 if [ -z "$SEROTYPE" ]; then
   echo "missing required option -t <serotype>" >&2
-  echo "$USAGE" >&2
+  echo -e "$USAGE" >&2
   exit 1
 fi
 
 if [ -z "$PRIMER_BED" ]; then
   echo "missing required option -b <primer_bed>" >&2
-  echo "$USAGE" >&2
+  echo -e "$USAGE" >&2
   exit 1
 fi
 
 if [ -z "$RESUME_NAME" ]; then
   echo "missing required option -n <resume_name>" >&2
-  echo "$USAGE" >&2
+  echo -e "$USAGE" >&2
   exit 1
 fi
 
@@ -115,6 +129,12 @@ docker run --rm -it \
   --mount type=bind,source="$INPUT_DIR",target=/_input \
   --mount type=bind,source="$OUTPUT_DIR",target=/_output \
   --mount type=bind,source="$PRIMER_BED",target=/_primer.bed \
+  --env IVAR_VARIANTS_MIN_FREQ=${IVAR_VARIANTS_MIN_FREQ} \
+  --env IVAR_VARIANTS_MIN_QUAL=${IVAR_VARIANTS_MIN_QUAL} \
+  --env IVAR_VARIANTS_MIN_COV=${IVAR_VARIANTS_MIN_COV} \
+  --env IVAR_CONSENSUS_MIN_FREQ=${IVAR_CONSENSUS_MIN_FREQ} \
+  --env IVAR_CONSENSUS_MIN_QUAL=${IVAR_CONSENSUS_MIN_QUAL} \
+  --env IVAR_CONSENSUS_MIN_COV=${IVAR_CONSENSUS_MIN_COV} \
   hivdb/poliopoly:latest \
   -i /_input \
   -o /_output \
